@@ -60,10 +60,7 @@
   window.setInterval(tick, 1000);
   $('#resetForm').submit(function() {
       console.log("submit!");
-      database.ref('clocks/' + id).set({
-          name: 'Time since ControlMaster incident',
-          time: Date.now(),
-      });
+      database.ref('clocks/' + id + '/time').set(Date.now());
   });
 </script>
 </body>
