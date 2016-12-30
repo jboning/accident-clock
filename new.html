@@ -1,0 +1,50 @@
+<html>
+<head>
+<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase-messaging.js"></script>
+<script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+          crossorigin="anonymous"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyA3tP5cEiPiIA81oWdSYrdEfi29r-hyTX4",
+    authDomain: "accident-clock.firebaseapp.com",
+    databaseURL: "https://accident-clock.firebaseio.com",
+    storageBucket: "accident-clock.appspot.com",
+    messagingSenderId: "750940402722"
+  };
+  var app = firebase.initializeApp(config);
+  var database = app.database();
+</script>
+</head>
+<body>
+Create new counter
+<form id="createForm" action="javascript:void(0);">
+    <input type="textbox" id="name" value="" />
+    <input type="submit" value="Create" />
+</form>
+<script>
+  function genID() {
+      // from http://stackoverflow.com/a/2117523
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+          return v.toString(16);
+      });
+  }
+  $('#createForm').submit(function() {
+      var id = genID();
+      database.ref('clocks/' + id).set({
+          name: $('#name').val(),
+          time: Date.now(),
+      });
+      document.location = 'index.html#' + id;
+  });
+</script>
+</body>
+</html>
