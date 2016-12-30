@@ -26,15 +26,13 @@
 <title>Accident Clock</title>
 </head>
 <body>
-<div id="name">Loading....</div>
+<div id="name"></div>
 <div id="counter"></div>
 <form id="resetForm" action="javascript:void(0);">
     <input type="submit" value="Reset" />
 </form>
 <a href="new.html">New clock</a>
 <script>
-  id = window.location.hash.substr(1);
-  ref = database.ref('clocks/' + id)
   function pluralize(n, str) {
       return n == 1 ? str : str + "s"
   }
@@ -55,10 +53,22 @@
                 seconds + " " + pluralize(seconds, "second");
       $("#counter").text(str);
   }
-  ref.on('value', render);
+
+  var id = null;
+  var ref = null;
   function tick() {
       ref.once('value').then(render);
   }
+  function initState() {
+      id = window.location.hash.substr(1);
+      ref = database.ref('clocks/' + id);
+      $("#name").text("Loading....");
+      $("#counter").text("");
+      tick();
+  }
+  initState();
+  $(window).on('hashchange', initState);
+  ref.on('value', render);
   window.setInterval(tick, 1000);
   $('#resetForm').submit(function() {
       console.log("submit!");
