@@ -33,9 +33,24 @@
 <script>
   id = window.location.hash.substr(1);
   ref = database.ref('clocks/' + id)
+  function pluralize(n, str) {
+      return n == 1 ? str : str + "s"
+  }
   function render(snapshot) {
       $('#name').text(snapshot.val().name);
-      $('#counter').text(Math.floor((Date.now() - snapshot.val().time) / 1000) + " seconds");
+      var total_seconds = Math.floor((Date.now() - snapshot.val().time) / 1000);
+      var seconds = total_seconds % 60;
+      var total_minutes = Math.floor(total_seconds / 60);
+      var minutes = total_minutes % 60;
+      var total_hours = Math.floor(total_minutes / 60);
+      var hours = total_hours % 60;
+      var total_days = Math.floor(total_hours / 24);
+      var days = total_days;
+      var str = days + " " + pluralize(days, "day") + " " +
+                hours + " " + pluralize(hours, "hour") + " " +
+                minutes + " " + pluralize(minutes, "minute") + " " +
+                seconds + " " + pluralize(seconds, "second");
+      $("#counter").text(str);
   }
   ref.on('value', render);
   function tick() {
