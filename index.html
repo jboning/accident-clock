@@ -23,6 +23,7 @@
   var database = app.database();
   console.log(app.name);
 </script>
+<title>Accident Clock</title>
 </head>
 <body>
 <div id="name">Loading....</div>
@@ -39,6 +40,7 @@
   }
   function render(snapshot) {
       $('#name').text(snapshot.val().name);
+      document.title = "Accident Clock: " + snapshot.val().name;
       var total_seconds = Math.floor((Date.now() - snapshot.val().time) / 1000);
       var seconds = total_seconds % 60;
       var total_minutes = Math.floor(total_seconds / 60);
