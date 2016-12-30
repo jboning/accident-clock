@@ -21,7 +21,6 @@
   };
   var app = firebase.initializeApp(config);
   var database = app.database();
-  console.log(app.name);
 </script>
 <title>Accident Clock</title>
 </head>
@@ -71,7 +70,6 @@
   ref.on('value', render);
   window.setInterval(tick, 1000);
   $('#resetForm').submit(function() {
-      console.log("submit!");
       database.ref('clocks/' + id + '/time').set(Date.now());
   });
 </script>
